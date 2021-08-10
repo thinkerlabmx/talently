@@ -2,66 +2,152 @@
 
 namespace App;
 
-class VillaPeruana
-{
-    public $name;
 
+
+class normalProduct{
     public $quality;
-
     public $sellIn;
 
-    public $qualityFactor;
-
-    public function __construct($name, $quality, $sellIn)
+    public function __construct($quality, $sellIn)
     {
-        $this->name = $name;
         $this->quality = $quality;
         $this->sellIn = $sellIn;
     }
 
-    public static function of($name, $quality, $sellIn) {
-        return new static($name, $quality, $sellIn);
+    public function tick(){
+        if($this->quality>0 && $this->quality<50)
+        {
+            //La calidad siempre se moverá al menos una vez en función del producto
+            $this->quality+=-1;
+            if($this->sellIn<=0)
+                $this->quality+=-1;
+            if($this->quality>50)
+                    $this->quality=50;
+        }
+        $this->sellIn -=  1;
+    }
+}
+
+class piscoPeruanoProduct {
+    public $quality;
+    public $sellIn;
+
+    public function __construct($quality, $sellIn)
+    {
+        $this->quality = $quality;
+        $this->sellIn = $sellIn;
     }
 
-    public function tick()
-    {
-        //Definimos el factor de ajuste de calidad
-        $this->qualityFactor=1;
-        if($this->name == 'Café Altocusco') $this->qualityFactor=-2;
-        if($this->name == 'normal') $this->qualityFactor=-1;
-
-        //Solo se modifican los atributos de los productos que NO son Tumi
-        if ($this->name != 'Tumi de Oro Moche')
+    public function tick(){
+        if($this->quality>0 && $this->quality<50)
         {
-            if($this->quality>0 && $this->quality<50)
-            {
-                //La calidad siempre se moverá al menos una vez en función del producto
-                $this->quality+=$this->qualityFactor;
-                //Lo tickets VIP tienen un comportamiento distinto al resto de los productos
-                if($this->name == 'Ticket VIP al concierto de Pick Floid')
-                {
-                    if($this->sellIn>0)
-                    {
-                        if($this->sellIn<=10)
-                            $this->quality+=$this->qualityFactor;
-                        if($this->sellIn<=5)
-                            $this->quality+=$this->qualityFactor;
-                    }
-                    else {
-                        $this->quality=0;
-                    }
-                }
-                //El resto de los productos se comportan igual
-                else
-                {
-                    if($this->sellIn<=0)
-                        $this->quality+=$this->qualityFactor;
-                }
-
-                if($this->quality>50)
+            //La calidad siempre se moverá al menos una vez en función del producto
+            $this->quality+=1;
+            if($this->sellIn<=0)
+                $this->quality+=1;
+            if($this->quality>50)
                     $this->quality=50;
+        }
+        $this->sellIn -=  1;
+    }
+}
+
+class tumiProduct{
+    public $quality;
+    public $sellIn;
+
+    public function __construct($quality, $sellIn)
+    {
+        $this->quality = $quality;
+        $this->sellIn = $sellIn;
+    }
+
+    public function tick(){
+    }
+}
+
+class ticketVipProduct {
+    public $quality;
+    public $sellIn;
+
+    public function __construct($quality, $sellIn)
+    {
+        $this->quality = $quality;
+        $this->sellIn = $sellIn;
+    }
+
+    public function tick(){
+        if($this->quality>0 && $this->quality<50)
+        {
+            //La calidad siempre se moverá al menos una vez en función del producto
+            $this->quality+=1;
+            if($this->sellIn>0)
+            {
+                if($this->sellIn<=10)
+                    $this->quality+=1;
+                if($this->sellIn<=5)
+                    $this->quality+=1;
             }
-            $this->sellIn -=  1;
+            else {
+                $this->quality=0;
+            }
+
+            if($this->quality>50)
+                    $this->quality=50;
+        }
+        $this->sellIn -=  1;
+    }
+}
+
+class cafeProduct {
+    public $quality;
+    public $sellIn;
+
+    public function __construct($quality, $sellIn)
+    {
+        $this->quality = $quality;
+        $this->sellIn = $sellIn;
+    }
+
+    public function tick(){
+        if($this->quality>0 && $this->quality<50)
+        {
+            //La calidad siempre se moverá al menos una vez en función del producto
+            $this->quality+=-2;
+            if($this->sellIn<=0)
+                $this->quality+=-2;
+            if($this->quality>50)
+                    $this->quality=50;
+        }
+        $this->sellIn -=  1;
+    }
+}
+
+class VillaPeruana
+{
+    public $name;
+    public $quality;
+    public $sellIn;
+
+
+    public static function of($name, $quality, $sellIn) 
+    {
+        switch($name){
+            case 'normal':
+                return new normalProduct($quality, $sellIn);
+            break;
+            case 'Pisco Peruano':
+                return new piscoPeruanoProduct($quality, $sellIn);
+            break;
+            case 'Tumi de Oro Moche':
+                return new tumiProduct($quality, $sellIn);
+            break;
+            case 'Ticket VIP al concierto de Pick Floid':
+                return new ticketVipProduct($quality, $sellIn);
+            break;
+            case 'Café Altocusco':
+                return new cafeProduct($quality, $sellIn);
+            break;
         }
     }
 }
