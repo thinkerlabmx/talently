@@ -16,4 +16,4 @@
 - Otro ejemplo, pero en esta ocasión para un Query Scope local sucedió para un proyecto agro en México en donde había consultas de parcelas agrícolas y de sus propietarios en dónde siempre se tenía que buscar por la ciudad a la que pertenecían. En lugar de escribir estas claúsulas cada vez; mejor creé una método scope  en el modelo y lo reutilicé cada que lo necesité.
 
 4. Qué convenciones utilizas en la creación e implementación de migraciones?
-De arranque creo una migración para cada tabla de la base de datos y busco crear todas las migraciones en cuanto tengo una versión estable de mi diseño de base de datos. Después, voy creando migraciones para cada cambio que realizo o para cada tabla nueva que creo.
+- De arranque creo una migración para cada tabla de la base de datos y busco crear todas las migraciones en cuanto tengo una versión estable de mi diseño de base de datos. Después, voy creando migraciones para cada cambio que realizo o para cada tabla nueva que creo.
